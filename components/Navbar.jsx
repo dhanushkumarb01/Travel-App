@@ -43,7 +43,7 @@ export default function Navbar() {
                 { label: "Beaches", href: "#" },
                 { label: "Desert Safari", href: "#" },
               ]}
-              className="text-[#000929] text-[14px] hover:text-orange-500 font-gloria"
+              className="text-[#000929] text-[14px] hover:text-orange-500 font-playfair"
             />
             <DropdownMenu
               title="International Trips"
@@ -52,7 +52,7 @@ export default function Navbar() {
                 { label: "Asia Tour", href: "#" },
                 { label: "America Tour", href: "#" },
               ]}
-              className="text-[#000929] text-[14px] hover:text-orange-500 font-gloria"
+              className="text-[#000929] text-[14px] hover:text-orange-500 font-playfair"
             />
             <DropdownMenu
               title="Fixed Departures"
@@ -60,11 +60,11 @@ export default function Navbar() {
                 { label: "Winter Specials", href: "#" },
                 { label: "Summer Break", href: "#" },
               ]}
-              className="text-[#000929] text-[14px] hover:text-orange-500 font-gloria"
+              className="text-[#000929] text-[14px] hover:text-orange-500 font-playfair"
             />
             <Link
               href="#"
-              className="text-gray-700 text-[14px] hover:text-orange-500 font-gloria"
+              className="text-gray-700 text-[14px] hover:text-orange-500 font-playfair"
             >
               Speciality Tours
             </Link>
