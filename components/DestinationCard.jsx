@@ -1,50 +1,53 @@
-import { FaBed, FaPlaneDeparture } from "react-icons/fa";
-import { IoCalendarOutline } from "react-icons/io5";
+"use client";
+
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function DestinationCard({ destination }) {
-  
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/itinerary-detail/${destination.id}`);
+  };
+
   return (
-    <div className="bg-white shadow-lg rounded-lg border relative overflow-visible">
-     
-     <span className="absolute top-11 -left-3 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[12px] border-t-[#010009]"></span>
-
-
-      <div className="relative">
+    <div 
+      className="relative group cursor-pointer"
+      onClick={handleClick}
+    >
+      <div className="relative h-[450px] w-full overflow-hidden rounded-2xl">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={destination.image}
           alt={destination.title}
-          className="w-full h-56 object-cover rounded-t-lg"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          onError={(e) => {
+            e.target.src = "https://images.pexels.com/photos/1450354/pexels-photo-1450354.jpeg";
+          }}
         />
-
-        <span className="absolute top-3 -left-3 bg-gradient-to-r from-[#FF3131] to-[#FF914D] text-white px-4 py-2 text-xs font-semibold rounded-r-lg rounded-tl-lg shadow-md flex items-center">
-          ✧˖° POPULAR
-        </span>
-
-        {/* Price Badge - Moved Outside */}
-        <span className="absolute top-3 right-3 bg-[#FFB154] text-white border border-white px-4 py-2 text-xs font-semibold rounded-full shadow-md">
-          Starts {destination.price}
-        </span>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        
+        {destination.discount && (
+          <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm">
+            {destination.discount}
+          </div>
+        )}
       </div>
 
-      {/* Content Section */}
-      <div className="p-4">
-        <h3 className="font-normal text-[#000929] text-[24px]">
-          {destination.title}
-        </h3>
-        <div className="mt-4 flex justify-between text-gray-500 text-sm">
-          <div className="flex items-center space-x-2">
-            <FaBed className="text-red-500" />
-            <span>{destination.nights}</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <IoCalendarOutline className="text-red-500" />
-            <span>{destination.date}</span>
-          </div>
+      <div className="absolute bottom-0 p-6 text-white w-full">
+        <h3 className="text-3xl font-bold mb-4">{destination.title}</h3>
+        <div className="flex items-center gap-2 mb-4">
+          <span className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/plane.png" alt="Flight" className="w-5 h-5" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/hotel.png" alt="Hotel" className="w-5 h-5" />
+          </span>
+          <span>{destination.description}</span>
         </div>
-        <div className="mt-2 flex items-center space-x-2 text-gray-500 text-sm">
-          <FaPlaneDeparture className="text-red-500" />
-          <span>{destination.airport}</span>
-        </div>
+        <button className="w-full py-2 px-4 border-2 border-white rounded-full text-white hover:bg-white hover:text-black transition-all duration-300">
+          Explore
+        </button>
       </div>
     </div>
   );

@@ -1,53 +1,49 @@
-"use client";
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   FaHotel,
   FaCar,
   FaBinoculars,
-  FaPhoneAlt,
-  FaEnvelope,
-} from "react-icons/fa";
+  FaShieldAlt,
+  FaFingerprint,
+  FaLock,
+  FaExclamationTriangle
+} from 'react-icons/fa';
 
-const Overview = () => {
+const Overview = ({ trip }) => {
+  const router = useRouter();
   const [adults, setAdults] = useState(0);
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
-  const [activeTab, setActiveTab] = useState("duration");
-  const features = [
-    {
-      title: "Two-factor authentication",
-      description:
-        "Two-factor authentication ensures added protection by using verification steps.",
-      color: "#ECF0FB",
-      secondColor: "#2E68FD",
-    },
-    {
-      title: "Fraud detection and alerts",
-      description:
-        "Fraud detection safeguards your money, sending instant alerts for any activity.",
 
-      color: "#FEEDED",
-      secondColor: "#FC4343",
+  const whyChooseUsItems = [
+    {
+      icon: <FaShieldAlt className="w-6 h-6 text-blue-500" />,
+      title: "Two-factor authentication",
+      description: "Two-factor authentication ensures added protection by using verification steps."
     },
     {
+      icon: <FaExclamationTriangle className="w-6 h-6 text-red-500" />,
+      title: "Fraud detection and alerts",
+      description: "Fraud detection safeguards your money, sending instant alerts for any activity."
+    },
+    {
+      icon: <FaFingerprint className="w-6 h-6 text-green-500" />,
       title: "Biometric access",
-      description:
-        "Easily and securely log in with biometric features, and facial recognition.",
-      color: "#E1F1F9",
-      secondColor: "#3B7793",
+      description: "Easily and securely log in with biometric features, and facial recognition."
     },
     {
+      icon: <FaLock className="w-6 h-6 text-purple-500" />,
       title: "End-to-end encryption",
-      description:
-        "By encryption, protecting your data from unauthorized access.",
-      color: "#FAEEE2",
-      secondColor: "#D77E1B",
-    },
+      description: "By encryption, protecting your data from unauthorized access."
+    }
   ];
+
+  if (!trip) return null;
 
   return (
     <div className="mx-auto max-w-7xl flex sm:flex-row flex-col items-start gap-x-10 gap-y-10 sm:pt-20 pt-12 sm:px-0 px-4">
-      <div className="space-y-6">
+      <div className="space-y-12 flex-1">
         <div className="sm:space-y-6 space-y-4">
           <h2 className="sm:text-3xl text-2xl font-bold text-[#0A0A0A]">
             Trip Overview
@@ -56,115 +52,53 @@ const Overview = () => {
             className="sm:p-6 p-4 rounded-[16px]"
             style={{
               background:
-                "linear-gradient(90deg, #f4eefb 0%,   #fdfaf6 40%,  #f4eefb 100%)",
+                "linear-gradient(90deg, #f4eefb 0%, #fdfaf6 40%, #f4eefb 100%)",
             }}
           >
             <div className="bg-[#FAFFDB] px-4 py-2.5 rounded-md sm:text-base text-sm font-medium inline-flex items-center gap-2 border border-[#000000] border-opacity-15">
               <img
-                src="https://images.pexels.com/photos/1483053/pexels-photo-1483053.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                src={trip.images?.[0]?.url || "https://images.unsplash.com/photo-1469474968028-56623f02e42e"}
                 alt="icon"
                 className="w-5 h-5 rounded-full object-cover"
               />
-              Honeymoon
+              {trip.destinationType}
               <span className="w-4 h-4 bg-gradient-to-r from-[#FF3131] to-[#FF914D] rounded-full flex items-center justify-center"></span>
-              7 Days
+              {trip.duration?.days} Days
             </div>
 
             <p className="sm:text-[16px] text-sm text-[#4D525F] mt-4">
-              Embark on an unforgettable journey with our carefully crafted
-              itinerary. Begin with a seamless airport transfer to the
-              enchanting town of Ubud, where you'll experience the breathtaking
-              Tegenungan Waterfall, the lush Tegalalang Rice Fields, and the
-              playful Ubud Monkey Forest. Delight in an exhilarating swing
-              adventure at Aloha, offering stunning views, and explore the
-              vibrant Ubud Village. On the third day, discover the majestic
-              Handara Gate and the iconic Tanah Lot temple before settling into
-              you...
+              {trip.description}
             </p>
           </div>
         </div>
 
-        <div className="sm:space-y-6 space-y-4">
-          <h2 className="sm:text-3xl text-2xl font-bold mt-8">
+        <div className="space-y-6">
+          <h2 className="sm:text-3xl text-2xl font-bold text-[#0A0A0A]">
             Why Choose Us?
           </h2>
-          <div
-            className="sm:p-10 p-5 rounded-[16px] relative space-y-8"
-            style={{
-              background:
-                "linear-gradient(90deg, #f4eefb 0%, #fdfaf6 40%, #f4eefb 100%)",
-            }}
-          >
-            {features.map(
-              (feature, index) =>
-                index % 2 === 0 && (
-                  <div key={index} className="flex items-center gap-x-8">
-                    <div className="space-y-2 text-left">
-                      <span
-                        className="w-6 h-6 rounded-full flex items-center justify-center"
-                        style={{ backgroundColor: feature.color }}
-                      >
-                        <span
-                          className="w-2 h-2 rounded-full"
-                          style={{ backgroundColor: feature.secondColor }}
-                        ></span>
-                      </span>
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {feature.title}
-                      </h3>
-                      <p className="text-gray-600 text-sm max-w-sm">
-                        {feature.description}
-                      </p>
-                    </div>
-
-                    {/* Vertical line centered */}
-                    <div className="sm:flex hidden flex-col items-center">
-                      <div
-                        className="w-0.5 h-40 rounded-full hidden md:block"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #F5F5F5 0%, #CBCBCB 45%, #F5F5F5 100%)",
-                        }}
-                      ></div>
-                    </div>
-
-                    {features[index + 1] && (
-                      <div className="space-y-2 text-left">
-                        <span
-                          className="w-6 h-6 rounded-full flex items-center justify-center"
-                          style={{ backgroundColor: features[index + 1].color }}
-                        >
-                          <span
-                            className="w-2 h-2 rounded-full"
-                            style={{
-                              backgroundColor: features[index + 1].secondColor,
-                            }}
-                          ></span>
-                        </span>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {features[index + 1].title}
-                        </h3>
-                        <p className="text-gray-600 text-sm max-w-sm">
-                          {features[index + 1].description}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )
-            )}
+          <div className="grid sm:grid-cols-2 gap-6 bg-[#F8F8F8] p-6 rounded-xl">
+            {whyChooseUsItems.map((item, index) => (
+              <div key={index} className="flex items-start gap-4 p-4 bg-white rounded-lg">
+                <div className="flex-shrink-0">
+                  {item.icon}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
+                  <p className="text-sm text-gray-600">{item.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="w-full space-y-6">
-        <div className="max-w-md mx-auto border rounded-b-lg">
+      <div className="w-full sm:w-[400px] space-y-6">
+        <div className="border rounded-b-lg">
           <div className="relative p-6 rounded-t-lg overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-[#FF3131] to-[#FF914D] opacity-25"></div>
             <div className="relative z-10 text-center text-[#222222] space-y-1.5">
-              <h3 className="text-lg font-normal">
-                Want to Go For An Amazing Holiday?
-              </h3>
-              <p className="text-xs  text-[#323232] font-medium">
+              <h3 className="text-lg font-normal">Want to Go For An Amazing Holiday?</h3>
+              <p className="text-xs text-[#323232] font-medium">
                 Provide Your Details to Know Best Holiday Deals
               </p>
             </div>
@@ -176,7 +110,7 @@ const Overview = () => {
               <input
                 type="text"
                 className="w-full px-4 py-2.5 border border-[#DDDDDD] rounded-[4px] bg-[#EEEEEE] text-[#222222] font-medium"
-                value="Norwegian Dreams: Winters Special"
+                value={trip.title}
                 disabled
               />
             </div>
@@ -248,6 +182,13 @@ const Overview = () => {
             <button className="w-full bg-gradient-to-r from-[#FF3131] to-[#FF914D] text-white p-3 rounded-full text-base font-normal">
               SEND QUERY
             </button>
+            
+            <button 
+              onClick={() => router.push('/payment')}
+              className="w-full bg-gradient-to-r from-[#FF3131] to-[#FF914D] text-white p-3 rounded-full text-base font-normal"
+            >
+              PROCEED TO PAYMENT
+            </button>
           </div>
         </div>
 
@@ -277,26 +218,26 @@ const Overview = () => {
 
             <div className="text-[#222222] text-sm p-6 space-y-2">
               <p>
-                <span>Duration:</span> 6 Nights & 7 Days
+                <span>Duration:</span> {trip.duration?.nights} Nights & {trip.duration?.days} Days
               </p>
               <p>
-                <span>Places to Visit:</span> 3N Ubud + 3N Kuta
+                <span>Destination:</span> {trip.destinationCountry}
               </p>
             </div>
           </div>
 
-          <div className="bg-gray-200 p-4 rounded-lg  flex items-start space-x-3">
+          <div className="bg-gray-200 p-4 rounded-lg flex items-start space-x-3">
             <img
-              src="/icons/customer-care.png.png"
-              alt="icon"
+              src="/icons/customer-care.png"
+              alt="Customer Care"
               className="w-10 h-10"
             />
             <div>
               <h3 className="font-semibold text-gray-900">Need Help?</h3>
               <p className="text-gray-700 text-sm">
-                Call Us: <span className="font-semibold">+900000000000</span>
+                Call Us: <span className="font-semibold">+91 1234567890</span>
                 <br />
-                Mail Us: <span className="font-semibold">sbbbbb@gmail.com</span>
+                Mail Us: <span className="font-semibold">support@travel.com</span>
               </p>
             </div>
           </div>

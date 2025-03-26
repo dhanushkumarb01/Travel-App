@@ -1,5 +1,4 @@
 import React from "react";
-import { FaCheckCircle, FaTimesCircle, FaCar } from "react-icons/fa";
 
 const VerticalTimeline = () => {
   return (
@@ -10,61 +9,28 @@ const VerticalTimeline = () => {
   );
 };
 
-const Summary = () => {
-  const tripDays = [
-    {
-      day: "Day 1-2",
-      location: "Ubud",
-      stay: "Stay at Danakha Villa Ubud",
-      travelGuide: "Ubud Travel Guide",
-      schedule: [
-        {
-          date: "Wed,",
-          date2: "08 Jan",
-          time: "Morning",
-          icon: "✈️",
-          activity:
-            "Arrive in Denpasar Bali airport. Get transferred to your hotel in Ubud.",
-          period: "Noon to Evening",
-          details: "At leisure.",
-        },
-        {
-          date: "Thu,",
-          date2: "08 Jan",
-          time: "Full Day",
-          icon: "🌋",
-          activity:
-            "Ubud Wonders: Volcano, Waterfalls, Rice Fields, Monkeys & Exhilarating Swing Thrills",
-        },
-      ],
-    },
-    {
-      day: "Day 3-4",
-      location: "Ubud",
-      stay: "Stay at Danakha Villa Ubud",
-      travelGuide: "Ubud Travel Guide",
-      schedule: [
-        {
-          date: "Wed,",
-          date2: "08 Jan",
-          time: "Morning",
-          icon: "✈️",
-          activity:
-            "Arrive in Denpasar Bali airport. Get transferred to your hotel in Ubud.",
-          period: "Noon to Evening",
-          details: "At leisure.",
-        },
-        {
-          date: "Thu,",
-          date2: "08 Jan",
-          time: "Full Day",
-          icon: "🌋",
-          activity:
-            "Ubud Wonders: Volcano, Waterfalls, Rice Fields, Monkeys & Exhilarating Swing Thrills",
-        },
-      ],
-    },
-  ];
+const Summary = ({ itinerary = [] }) => {
+  // Group itinerary items by 2 days
+  const groupedItinerary = itinerary.reduce((acc, curr, idx) => {
+    const groupIdx = Math.floor(idx / 2);
+    if (!acc[groupIdx]) {
+      acc[groupIdx] = {
+        day: `Day ${idx + 1}-${idx + 2}`,
+        location: curr.location || "Location",
+        stay: curr.stay || "Hotel Stay",
+        travelGuide: `${curr.location || 'Travel'} Guide`,
+        schedule: []
+      };
+    }
+    acc[groupIdx].schedule.push({
+      date: curr.date,
+      date2: curr.date2,
+      time: curr.schedule?.morning ? "Morning" : curr.schedule?.afternoon ? "Afternoon" : "Evening",
+      activity: curr.overview,
+      details: curr.schedule?.morning || curr.schedule?.afternoon || curr.schedule?.evening
+    });
+    return acc;
+  }, []);
 
   return (
     <div className="py-10">
@@ -74,10 +40,10 @@ const Summary = () => {
         </h2>
 
         <div className="relative sm:pt-16 pt-6">
-          {tripDays?.map((trip, index) => (
+          {groupedItinerary.map((trip, index) => (
             <div
               key={index}
-              className="relative flex flex-col sm:flex-row items-start  gap-y-2.5 gap-x-6 sm:py-0 py-2.5"
+              className="relative flex flex-col sm:flex-row items-start gap-y-2.5 gap-x-6 sm:py-0 py-2.5"
             >
               <div className="w-24 h-10 flex items-center justify-center text-white font-semibold text-sm rounded-full bg-gradient-to-r from-red-500 to-orange-400">
                 {trip.day}
@@ -119,7 +85,6 @@ const Summary = () => {
                   </div>
                 </div>
 
-                {/* Schedule */}
                 <div className="px-4 sm:px-8 space-y-3">
                   {trip.schedule.map((scheduleItem, idx) => (
                     <div
@@ -154,6 +119,11 @@ const Summary = () => {
                           <p className="text-[#001619] text-[10px] sm:text-xs">
                             {scheduleItem.activity}
                           </p>
+                          {scheduleItem.details && (
+                            <p className="text-[#001619] text-[10px] sm:text-xs">
+                              {scheduleItem.details}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>

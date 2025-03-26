@@ -25,6 +25,23 @@ export default function Navbar() {
     }
   };
 
+  const domesticItems = [
+    { label: "Mountains", href: "/packages?type=mountain" },
+    { label: "Beaches", href: "/packages?type=beach" },
+    { label: "Desert Safari", href: "/packages?type=desert" },
+  ];
+
+  const internationalItems = [
+    { label: "Europe Tour", href: "/packages?country=Europe" },
+    { label: "Asia Tour", href: "/packages?country=Asia" },
+    { label: "America Tour", href: "/packages?country=America" },
+  ];
+
+  const seasonalItems = [
+    { label: "Winter Specials", href: "/packages?season=Winter" },
+    { label: "Summer Break", href: "/packages?season=Summer" },
+  ];
+
   return (
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-0 lg:px-0 md:px-2">
@@ -38,28 +55,17 @@ export default function Navbar() {
           <div className="hidden sm:flex space-x-8">
             <DropdownMenu
               title="Domestic Trips"
-              items={[
-                { label: "Mountains", href: "#" },
-                { label: "Beaches", href: "#" },
-                { label: "Desert Safari", href: "#" },
-              ]}
+              items={domesticItems}
               className="text-[#000929] text-[14px] hover:text-orange-500 font-playfair"
             />
             <DropdownMenu
               title="International Trips"
-              items={[
-                { label: "Europe Tour", href: "#" },
-                { label: "Asia Tour", href: "#" },
-                { label: "America Tour", href: "#" },
-              ]}
+              items={internationalItems}
               className="text-[#000929] text-[14px] hover:text-orange-500 font-playfair"
             />
             <DropdownMenu
               title="Fixed Departures"
-              items={[
-                { label: "Winter Specials", href: "#" },
-                { label: "Summer Break", href: "#" },
-              ]}
+              items={seasonalItems}
               className="text-[#000929] text-[14px] hover:text-orange-500 font-playfair"
             />
             <Link
@@ -107,7 +113,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Navigation Buttons */}
+          {/* Mobile Navigation */}
           <div className="flex sm:hidden items-center gap-2">
             {user ? (
               <>
@@ -151,34 +157,78 @@ export default function Navbar() {
           </div>
         </div>
 
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden flex flex-col items-start p-2">
-            {["Domestic Trips", "International Trips", "Fixed Departures"].map(
-              (title) => (
-                <div key={title} className="w-full">
-                  <button
-                    onClick={() => toggleDropdown(title)}
-                    className="w-full text-left flex justify-between items-center px-4 py-2 text-gray-700 hover:text-orange-500"
-                  >
-                    {title}
-                    {openDropdown === title ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                  </button>
-                  {openDropdown === title && (
-                    <div className="pl-6 py-2 space-y-2">
-                      <Link href="#" className="block text-gray-600 hover:text-orange-500">
-                        Option 1
-                      </Link>
-                      <Link href="#" className="block text-gray-600 hover:text-orange-500">
-                        Option 2
-                      </Link>
-                      <Link href="#" className="block text-gray-600 hover:text-orange-500">
-                        Option 3
-                      </Link>
-                    </div>
-                  )}
+            <div className="w-full">
+              <button
+                onClick={() => toggleDropdown("Domestic")}
+                className="w-full text-left flex justify-between items-center px-4 py-2 text-gray-700 hover:text-orange-500"
+              >
+                Domestic Trips
+                {openDropdown === "Domestic" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </button>
+              {openDropdown === "Domestic" && (
+                <div className="pl-6 py-2 space-y-2">
+                  {domesticItems.map((item) => (
+                    <Link 
+                      key={item.label}
+                      href={item.href}
+                      className="block text-gray-600 hover:text-orange-500"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
-              )
-            )}
+              )}
+            </div>
+
+            <div className="w-full">
+              <button
+                onClick={() => toggleDropdown("International")}
+                className="w-full text-left flex justify-between items-center px-4 py-2 text-gray-700 hover:text-orange-500"
+              >
+                International Trips
+                {openDropdown === "International" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </button>
+              {openDropdown === "International" && (
+                <div className="pl-6 py-2 space-y-2">
+                  {internationalItems.map((item) => (
+                    <Link 
+                      key={item.label}
+                      href={item.href}
+                      className="block text-gray-600 hover:text-orange-500"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="w-full">
+              <button
+                onClick={() => toggleDropdown("Seasonal")}
+                className="w-full text-left flex justify-between items-center px-4 py-2 text-gray-700 hover:text-orange-500"
+              >
+                Fixed Departures
+                {openDropdown === "Seasonal" ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </button>
+              {openDropdown === "Seasonal" && (
+                <div className="pl-6 py-2 space-y-2">
+                  {seasonalItems.map((item) => (
+                    <Link 
+                      key={item.label}
+                      href={item.href}
+                      className="block text-gray-600 hover:text-orange-500"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <Link
               href="#"
               className="w-full px-4 py-2 text-gray-700 hover:text-orange-500 text-left"

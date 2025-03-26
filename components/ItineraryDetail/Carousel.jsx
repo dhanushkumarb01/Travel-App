@@ -1,40 +1,35 @@
-"use client";
-
 import React, { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const Carousel = () => {
-  const images = [
-    "https://images.pexels.com/photos/1483053/pexels-photo-1483053.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/9482129/pexels-photo-9482129.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/9482132/pexels-photo-9482132.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/3601420/pexels-photo-3601420.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/9215867/pexels-photo-9215867.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load",
-    "https://images.pexels.com/photos/3601422/pexels-photo-3601422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/9080954/pexels-photo-9080954.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/1320684/pexels-photo-1320684.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/1450372/pexels-photo-1450372.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  ];
-
+const Carousel = ({ images = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // If no images provided, use a default image
+  const carouselImages = images.length > 0 
+    ? images.map(img => img.url || img)
+    : ["https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&auto=format&fit=crop&q=60"];
+
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselImages.length);
   };
 
   const prevSlide = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+      (prevIndex) => (prevIndex - 1 + carouselImages.length) % carouselImages.length
     );
   };
+
   return (
     <div className="relative max-w-7xl mx-auto mt-6 sm:px-0 px-4">
-      <div className="relative overflow-hidden rounded-lg shadow-lg ">
+      <div className="relative overflow-hidden rounded-lg shadow-lg">
         <div className="sm:aspect-[20/9] aspect-[20/12]">
           <img
-            src={images[currentIndex]}
-            alt="Bali Tour"
-            className=" w-full h-full object-cover object-center rounded-xl"
+            src={carouselImages[currentIndex]}
+            alt={`Trip Image ${currentIndex + 1}`}
+            className="w-full h-full object-cover object-center rounded-xl"
+            onError={(e) => {
+              e.target.src = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&auto=format&fit=crop&q=60";
+            }}
           />
         </div>
         <button
@@ -52,7 +47,7 @@ const Carousel = () => {
       </div>
 
       <div className="flex justify-center sm:space-x-2 space-x-1 mt-4">
-        {images.map((_, index) => (
+        {carouselImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
@@ -62,8 +57,9 @@ const Carousel = () => {
                 : "border-transparent"
             }`}
             style={{
-              backgroundImage: `url(${images[index]})`,
+              backgroundImage: `url(${carouselImages[index]})`,
               backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           ></button>
         ))}
